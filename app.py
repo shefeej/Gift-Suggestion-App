@@ -47,17 +47,29 @@ def delete_gift(gift_id):
 # create a new user
 @app.route("/api/users/", methods=["POST"])
 def create_user():
-    pass
+    body = json.loads(request.data)
+    u = User(name=body.get("name"))
+    db.session.add(u)
+    db.session.commit()
+    return success_response(u.serialize(), 201)
 
 # get a specific user
 @app.route("/api/users/<int:user_id>")
 def get_user(user_id):
-    pass
+    u = User.query.filter_by(id=user_id).first()
+    if u is None:
+        return failure_response("User not found!")
+    return success_response(u.serialize())
 
 # delete a specific user
 @app.route("/api/users/<int:user_id>", methods=["DELETE"])
 def delete_user(user_id):
-    pass
+    u = User.query.filter_by(id=user_id).first()
+    if u is None:
+        return failure_response("User not found!")
+    db.session.delete(u)
+    db.session.commit()
+    return success_response(u.serialize())
 
 # get a user's favorite gifts
 @app.route("/api/users/<int:user_id>/favorites/")
