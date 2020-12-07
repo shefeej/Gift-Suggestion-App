@@ -1,5 +1,5 @@
 from db import db
-from db import Course, User, Assignment
+from db import Gift, User
 from flask import Flask
 from flask import request
 import os
@@ -25,24 +25,41 @@ def failure_response(message, code=404):
 # your routes here
 
 # get all gifts by filters
-@app.route("/gifts/")
+@app.route("/api/gifts/")
 def get_gifts():
-    pass
+    return success_response([g.serialize() for g in Gift.query.all()])
 
 # get a specific gift
-@app.route("/gifts/<int:gift_id>")
+@app.route("/api/gifts/<int:gift_id>/")
 def get_gift(gift_id):
-    pass
+    gift = Gift.query.filter_by(id=gift_id).first()
+    if gift is None:
+        return failure_response('Gift not found!')
+    return success_response(gift.serialize())
 
 # create a new gift
-@app.route("/gifts/", methods=["POST"])
+@app.route("/api/gifts/", methods=["POST"])
 def create_gift():
-    pass
+    body = json.loads(request.data)
+    body_name = body.get('name')
+    body_price = body.get('price')
+    body_occasion = body.get('occasion')
+    if body_name is None or body_price is None or body_occasion is None:
+        return failure_response("Please provide gift name, price, and occasion.", 400)
+    new_gift = Gift(name=body_name, price=body_price, occasion=body_occasion)
+    db.session.add(new_gift)
+    db.session.commit()
+    return success_response(new_gift.serialize(), 201)
 
 # delete a specific gift
-@app.route("/gifts/<int:gift_id>", methods=["DELETE"])
+@app.route("/api/gifts/<int:gift_id>/", methods=["DELETE"])
 def delete_gift(gift_id):
-    pass
+    gift = Gift.query.filter_by(id=gift_id).first()
+    if gift is None:
+        return failure_response('Gift not found!')
+    db.session.delete(gift)
+    db.session.commit()
+    return success_response(gift.serialize())
 
 # create a new user
 @app.route("/api/users/", methods=["POST"])
@@ -54,7 +71,7 @@ def create_user():
     return success_response(u.serialize(), 201)
 
 # get a specific user
-@app.route("/api/users/<int:user_id>")
+@app.route("/api/users/<int:user_id>/")
 def get_user(user_id):
     u = User.query.filter_by(id=user_id).first()
     if u is None:
@@ -62,7 +79,7 @@ def get_user(user_id):
     return success_response(u.serialize())
 
 # delete a specific user
-@app.route("/api/users/<int:user_id>", methods=["DELETE"])
+@app.route("/api/users/<int:user_id>/", methods=["DELETE"])
 def delete_user(user_id):
     u = User.query.filter_by(id=user_id).first()
     if u is None:
