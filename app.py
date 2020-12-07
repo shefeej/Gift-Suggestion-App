@@ -91,13 +91,28 @@ def delete_user(user_id):
 # get a user's favorite gifts
 @app.route("/api/users/<int:user_id>/favorites/")
 def get_favorites(user_id):
-    pass
+    u = User.query.filter_by(id=user_id).first()
+    if u is None:
+        return failure_response("User not found!")
+    f = u.get("favorites")
+    return success_response(f)
 
 # add to a user's favorite gifts
 @app.route("/api/users/<int:user_id>/favorites/<int:gift_id>/", methods=["POST"])
 def add_favorite(user_id, gift_id):
-    pass
-
+    gift = Gift.query.filter_by(id=gift_id).first()
+    if gift is None:
+        return failure_response('Gift not found!')
+    u = User.query.filter_by(id=user_id).first()
+    if u is None:
+        return failure_response("User not found!")
+    f = u.get("favorites")
+    f = f.append(gift_id)
+    u.update({'favorites' : f})
+    db.session.update(u)
+    db.session.commit()
+    return success_response(f)
+    
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
