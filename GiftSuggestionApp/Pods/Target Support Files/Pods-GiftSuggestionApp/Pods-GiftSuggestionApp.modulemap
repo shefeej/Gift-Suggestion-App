@@ -1,0 +1,6 @@
+framework module Pods_GiftSuggestionApp {
+  umbrella header "Pods-GiftSuggestionApp-umbrella.h"
+
+  export *
+  module * { export * }
+}
