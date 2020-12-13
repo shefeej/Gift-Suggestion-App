@@ -40,6 +40,16 @@ class Gift(db.Model):
       #'image_url': self.image_url,
       'users': self.users
     }
+  def serialize_no_users(self):
+    return {
+        'id': self.id,
+        'name': self.name,
+        'price': self.price,
+        'age_min': self.age_min,
+        'age_max': self.age_max,
+        'occasion': self.occasion,
+        #'image_url': self.image_url,
+        }
 
 class User(db.Model):
   __tablename__ = 'user'
@@ -49,11 +59,10 @@ class User(db.Model):
 
   def __init__(self, **kwargs):
     self.name = kwargs.get('name')
-    self.favorites = kwargs.get('favorites')
 
   def serialize(self):
     return {
       'id': self.id,
       'name': self.name,
-      'favorites': self.favorites
+      'favorites': list(g.serialize_no_users() for g in self.favorites)
     }

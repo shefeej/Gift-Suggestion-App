@@ -156,12 +156,9 @@ def add_favorite(user_id, gift_id):
     u = User.query.filter_by(id=user_id).first()
     if u is None:
         return failure_response("User not found!")
-    f = u.get("favorites")
-    f = f.append(gift_id)
-    u.update({'favorites' : f})
-    db.session.update(u)
+    u.favorites.append(gift)
     db.session.commit()
-    return success_response(f)
+    return success_response(u)
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
