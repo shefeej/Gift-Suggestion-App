@@ -49,6 +49,7 @@ class User(db.Model):
 
   def __init__(self, **kwargs):
     self.name = kwargs.get('name')
+    self.favorites = kwargs.get('favorites')
 
   def serialize(self):
     return {
