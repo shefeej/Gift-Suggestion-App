@@ -57,6 +57,18 @@ class User(db.Model):
   name = db.Column(db.String, nullable=False)
   favorites = db.relationship('Gift', secondary=association_table, back_populates='users')
 
+  def get_favorites(self):
+    cursor = self.conn.execute("SELECT * FROM association;")
+    favs = []
+    for row in cursor:
+      favs.append(
+        {
+          'user_id': row[0],
+          'gift_id': row[1]
+        }
+      )
+      return favs
+
   def __init__(self, **kwargs):
     self.name = kwargs.get('name')
 

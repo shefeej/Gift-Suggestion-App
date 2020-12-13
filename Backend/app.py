@@ -138,18 +138,12 @@ def delete_user(user_id):
     db.session.commit()
     return success_response(u.serialize())
 
-# get a user's favorite gifts
-@app.route("/api/users/<int:user_id>/favorites/")
-def get_favorites(user_id):
-    u = User.query.filter_by(id=user_id).first()
-    if u is None:
-        return failure_response("User not found!")
-    f = u.get("favorites")
-    return success_response(f)
-
 # add to a user's favorite gifts
-@app.route("/api/users/<int:user_id>/favorites/<int:gift_id>/", methods=["POST"])
-def add_favorite(user_id, gift_id):
+@app.route("/api/favorites/", methods=["POST"])
+def add_favorite():
+    body = json.loads(request.data)
+    user_id = body.get("user_id")
+    gift_id = body.get("gift_id")
     gift = Gift.query.filter_by(id=gift_id).first()
     if gift is None:
         return failure_response('Gift not found!')
