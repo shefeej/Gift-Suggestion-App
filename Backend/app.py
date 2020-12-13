@@ -150,9 +150,29 @@ def add_favorite():
     u = User.query.filter_by(id=user_id).first()
     if u is None:
         return failure_response("User not found!")
+    if gift in u.favorites:
+        return failure_response("Gift already in favorites!")
     u.favorites.append(gift)
     db.session.commit()
-    return success_response(u)
+    return success_response(u.serialize())
+
+# delete from a user's favorite gifts
+@app.route("/api/favorites/remove/", methods=["POST"])
+def delete_favorite():
+    body = json.loads(request.data)
+    user_id = body.get("user_id")
+    gift_id = body.get("gift_id")
+    gift = Gift.query.filter_by(id=gift_id).first()
+    if gift is None:
+        return failure_response('Gift not found!')
+    u = User.query.filter_by(id=user_id).first()
+    if u is None:
+        return failure_response("User not found!")
+    if not (gift in u.favorites):
+        return failure_response("Gift already not in favorites!")
+    u.favorites.remove(gift)
+    db.session.commit()
+    return success_response(u.serialize())
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
