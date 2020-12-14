@@ -30,7 +30,7 @@ class DetailViewController: UIViewController {
         view.backgroundColor = .white
         title = "Details"
         
-        imageView.image = UIImage(named: gift.imageName)
+        imageView.image = UIImage(named: "gift")
         imageView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(imageView)
         

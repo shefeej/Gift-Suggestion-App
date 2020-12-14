@@ -20,13 +20,11 @@ class FavsTableViewCell: UITableViewCell {
         favImageView.contentMode = .scaleAspectFit
         favImageView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(favImageView)
-        favImageView.image = UIImage(named: "gift")
         
         nameLabel = UILabel()
         nameLabel.font = .boldSystemFont(ofSize: 20)
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(nameLabel)
-        nameLabel.text = "My Fav Gift"
         
         setupConstraints()
     }
@@ -58,6 +56,11 @@ class FavsTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+    
+    func configure(for gift: Gift) {
+        nameLabel.text = gift.name
+        favImageView.image = UIImage(named: "gift")
     }
 
 }

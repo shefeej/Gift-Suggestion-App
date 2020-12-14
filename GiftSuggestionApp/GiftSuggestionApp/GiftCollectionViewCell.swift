@@ -21,14 +21,12 @@ class GiftCollectionViewCell: UICollectionViewCell {
         imageView.layer.masksToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(imageView)
-        imageView.image = UIImage(named: "gift")
         
         nameLabel = UILabel()
         nameLabel.textColor = .black
         nameLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(nameLabel)
-        nameLabel.text = "Gift"
         
         setupConstraints()
     }
@@ -52,11 +50,11 @@ class GiftCollectionViewCell: UICollectionViewCell {
         }
     }
     
-//    func configure(gift: Gift) {
-//        imageView.image = UIImage(named: gift.imageName)
-//        nameLabel.text = gift.name
-//
-//    }
+    func configure(gift: Gift) {
+        imageView.image = UIImage(named: "gift")
+        nameLabel.text = gift.name
+
+    }
     
 
 }

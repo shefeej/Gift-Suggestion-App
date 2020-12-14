@@ -20,7 +20,7 @@ class BottomViewController: UITabBarController {
         //        self.navigationController!.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
         //        self.navigationController!.navigationBar.tintColor = #colorLiteral(red: 1, green: 0.99997437, blue: 0.9999912977, alpha: 1)
         //        navigationItem.prompt = NSLocalizedString("Navigation prompts appear at the top.", comment: "jkhgjfu")
-                
+
         //        navigationController?.navigationBar.barTintColor = UIColor(red:1, green:0.45, blue:0.42, alpha:1.0)
         //        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white, .font: UIFont(name: "AvenirNext-DemiBold", size: 23)!]
         //        navigationController?.navigationBar.isTranslucent = false
@@ -28,24 +28,24 @@ class BottomViewController: UITabBarController {
         //        navigationController?.navigationBar.shadowImage = UIImage()
         //        navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
             super.viewWillAppear(animated)
-            
+
             // Create Tab one
             let tabOne = ViewController()
             let tabOneBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
-            
+
             tabOne.tabBarItem = tabOneBarItem
-            
-            
+
+
             // Create Tab two
             let tabTwo = FavsViewController()
         let tabTwoBarItem2 = UITabBarItem(tabBarSystemItem: .favorites, tag: 1)
 
             tabTwo.tabBarItem = tabTwoBarItem2
-            
-            
+
+
             self.viewControllers = [tabOne, tabTwo]
         }
 

@@ -15,21 +15,25 @@ class ViewController: UIViewController {
     var moneyLabel: UILabel!
     var dashLabel: UILabel!
     var moneyPickerView: UIPickerView!
+    var moneyArray = Array(0...10000)
     var ageLabel: UILabel!
+    var ageArray = Array(0...99)
     var agePickerView: UIPickerView!
     var occasionLabel: UILabel!
     var occasionPickerView: UIPickerView!
+    var occasions = ["All","Holiday", "Birthday", "Wedding", "Graduation", "Anniversary"]
     var giftCollectionView: UICollectionView!
     let giftCellReuseIdentifier = "giftCellReuseIdentifier"
     
-    let test = Gift(imageName: "gift", name: "Gift")
-    var testlist: [Gift]!
+//    let test = Gift(imageName: "gift", name: "Gift")
+//    var testlist: [Gift]!
+    private var gifts: [Gift] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        testlist = [test,test,test,test,test,test,test,test]
+        //testlist = [test,test,test,test,test,test,test,test]
 
         view.backgroundColor = .white
         
@@ -71,7 +75,7 @@ class ViewController: UIViewController {
         moneyPickerView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(moneyPickerView)
         moneyPickerView.dataSource = self
-        //agePickerView.delegate = self
+        moneyPickerView.delegate = self
         
         ageLabel = UILabel()
         ageLabel.text = "age"
@@ -84,6 +88,7 @@ class ViewController: UIViewController {
         agePickerView.translatesAutoresizingMaskIntoConstraints = false
         agePickerView.dataSource = self
         view.addSubview(agePickerView)
+        agePickerView.delegate = self
         
         occasionLabel = UILabel()
         occasionLabel.text = "occasion"
@@ -96,6 +101,7 @@ class ViewController: UIViewController {
         occasionPickerView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(occasionPickerView)
         occasionPickerView.dataSource = self
+        occasionPickerView.delegate = self
         
         let giftLayout = UICollectionViewFlowLayout()
         giftLayout.scrollDirection = .vertical
@@ -108,6 +114,7 @@ class ViewController: UIViewController {
         giftCollectionView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(giftCollectionView)
 
+        getGifts()
         setUpConstraints()
     }
     
@@ -137,7 +144,7 @@ class ViewController: UIViewController {
         
         moneyPickerView.snp.makeConstraints { (make) in
             make.top.equalTo(filterLabel.snp.bottom)
-            make.size.equalTo(CGSize(width: 200, height: 40))
+            make.size.equalTo(CGSize(width: 200, height: 50))
             make.left.equalTo(moneyLabel.snp.right).offset(90)
         }
         
@@ -149,7 +156,7 @@ class ViewController: UIViewController {
         agePickerView.snp.makeConstraints { (make) in
             make.top.equalTo(ageLabel.snp.top).offset(-5)
             make.left.equalTo(moneyPickerView.snp.left)
-            make.size.equalTo(CGSize(width: 200, height: 40))
+            make.size.equalTo(CGSize(width: 200, height: 50))
         }
         
         occasionLabel.snp.makeConstraints { (make) in
@@ -160,7 +167,7 @@ class ViewController: UIViewController {
         occasionPickerView.snp.makeConstraints { (make) in
             make.top.equalTo(occasionLabel.snp.top).offset(-5)
             make.left.equalTo(moneyPickerView.snp.left)
-            make.size.equalTo(CGSize(width: 200, height: 40))
+            make.size.equalTo(CGSize(width: 200, height: 50))
         }
         
         giftCollectionView.snp.makeConstraints { (make) in
@@ -172,9 +179,21 @@ class ViewController: UIViewController {
 
     }
     
+    private func getGifts() {
+        NetworkManager.getGifts { (gifts) in
+            self.gifts = gifts
+            
+            DispatchQueue.main.async {
+                self.giftCollectionView.reloadData()
+            }
+        
+        }
+
+    }
+    
 }
 
-extension ViewController: UIPickerViewDataSource {
+extension ViewController: UIPickerViewDataSource, UIPickerViewDelegate {
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         if pickerView == moneyPickerView {
@@ -186,18 +205,26 @@ extension ViewController: UIPickerViewDataSource {
     }
 
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        if component == 0 {
-            return 10
-        } else {
-            return 100
+        if pickerView == agePickerView {
+            return ageArray.count
+        }
+        else if pickerView == moneyPickerView {
+            return moneyArray.count
+        }
+        else {
+            return 6
         }
     }
 
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        if component == 0 {
-            return "First \(row)"
-        } else {
-            return "Second \(row)"
+        if pickerView == agePickerView {
+            return String(ageArray[row])
+        }
+        else if pickerView == moneyPickerView {
+            return String(moneyArray[row])
+        }
+        else {
+            return occasions[row]
         }
     }
     
@@ -209,20 +236,20 @@ extension ViewController: UIPickerViewDataSource {
 
 extension ViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return testlist.count
+        return gifts.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = giftCollectionView.dequeueReusableCell(withReuseIdentifier: giftCellReuseIdentifier, for: indexPath) as! GiftCollectionViewCell
-//        cell.configure(gift: testlist[indexPath.item])
+        cell.configure(gift: gifts[indexPath.item])
         return cell
     }
 }
 
 extension ViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        //let gift = testlist[indexPath.item]
-        let detailViewController = DetailViewController(gift: test)
+        let gift = gifts[indexPath.item]
+        let detailViewController = DetailViewController(gift: gift)
         navigationController?.pushViewController(detailViewController, animated: true)
         
     }

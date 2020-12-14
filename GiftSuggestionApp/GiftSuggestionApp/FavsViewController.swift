@@ -8,17 +8,16 @@
 import UIKit
 
 class FavsViewController: UIViewController {
-    
+
     var tableView: UITableView!
     let reuseIdentifier = "favCellReuse"
-    
-    let test = Gift(imageName: "gift", name: "My Fav")
-    var testlist: [Gift]!
+
+    private var favGifts: [Gift] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        testlist = [test,test,test,test,test,test,test,test,test,test]
+
+        //testlist = [test,test,test,test,test,test,test,test,test,test]
 
         // Do any additional setup after loading the view.
         view.backgroundColor = .white
@@ -29,12 +28,12 @@ class FavsViewController: UIViewController {
         tableView.delegate = self
         tableView.register(FavsTableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
         view.addSubview(tableView)
-        
-        
+
+        getFavGifts()
         setupConstraints()
 
     }
-    
+
     func setupConstraints() {
         tableView.snp.makeConstraints { (make) in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
@@ -42,9 +41,19 @@ class FavsViewController: UIViewController {
             make.right.equalTo(view.snp.right)
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
-        
+
     }
     
+    private func getFavGifts() {
+        NetworkManager.getFavGifts(userId: 1) { (gifts) in
+            self.favGifts = gifts
+            
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+    }
+
 
     /*
     // MARK: - Navigation
@@ -60,25 +69,26 @@ class FavsViewController: UIViewController {
 
 extension FavsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return testlist.count
+        return favGifts.count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! FavsTableViewCell
- //       let gift = testlist[indexPath.row]
-//        cell.configure(for: song)
+        let gift = favGifts[indexPath.row]
+        cell.configure(for: gift)
         return cell
     }
 }
 
 extension FavsViewController: UITableViewDelegate {
-    
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let detailViewController = DetailViewController(gift: test)
+        let gift = favGifts[indexPath.row]
+        let detailViewController = DetailViewController(gift: gift)
         navigationController?.pushViewController(detailViewController, animated: true)
 
     }
