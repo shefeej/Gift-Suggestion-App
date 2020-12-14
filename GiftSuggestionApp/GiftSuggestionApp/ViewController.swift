@@ -15,7 +15,7 @@ class ViewController: UIViewController {
     var moneyLabel: UILabel!
     var dashLabel: UILabel!
     var moneyPickerView: UIPickerView!
-    var moneyArray = Array(0...10000)
+    var moneyRange = ["-"]
     var ageLabel: UILabel!
     var ageArray = Array(0...99)
     var agePickerView: UIPickerView!
@@ -36,6 +36,10 @@ class ViewController: UIViewController {
         //testlist = [test,test,test,test,test,test,test,test]
 
         view.backgroundColor = .white
+        
+        for i in 0...1000 {
+            moneyRange.append(String(i*10))
+        }
         
         
         //searchBar.delegate = self
@@ -209,7 +213,7 @@ extension ViewController: UIPickerViewDataSource, UIPickerViewDelegate {
             return ageArray.count
         }
         else if pickerView == moneyPickerView {
-            return moneyArray.count
+            return moneyRange.count
         }
         else {
             return 6
@@ -221,7 +225,7 @@ extension ViewController: UIPickerViewDataSource, UIPickerViewDelegate {
             return String(ageArray[row])
         }
         else if pickerView == moneyPickerView {
-            return String(moneyArray[row])
+            return String(moneyRange[row])
         }
         else {
             return occasions[row]

@@ -14,7 +14,8 @@ class BottomViewController: UITabBarController {
 
         // Do any additional setup after loading the view.
         self.delegate = self
-        title = "Gift Suggestion"
+        title = "Gify"
+        navigationItem.hidesBackButton = true
         //        self.navigationController!.navigationBar.barStyle = .default
         //        self.navigationController!.navigationBar.isTranslucent = true
         //        self.navigationController!.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]

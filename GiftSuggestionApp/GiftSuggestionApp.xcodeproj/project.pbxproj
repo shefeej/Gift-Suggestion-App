@@ -19,6 +19,7 @@
 		DD2065CE257E0C95002351EB /* FavsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD2065CD257E0C95002351EB /* FavsTableViewCell.swift */; };
 		DD2065D1257E21C6002351EB /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD2065D0257E21C6002351EB /* DetailViewController.swift */; };
 		DD2262DB258736FD0099AB65 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD2262DA258736FD0099AB65 /* NetworkManager.swift */; };
+		DD2262E22587D2430099AB65 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD2262E12587D2430099AB65 /* LoginViewController.swift */; };
 		EC2B4F2F6E04015E36FCDE68 /* Pods_GiftSuggestionApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D09793B67B1BBA0D76087B0 /* Pods_GiftSuggestionApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -40,6 +41,7 @@
 		DD2065CD257E0C95002351EB /* FavsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavsTableViewCell.swift; sourceTree = "<group>"; };
 		DD2065D0257E21C6002351EB /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		DD2262DA258736FD0099AB65 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		DD2262E12587D2430099AB65 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +90,7 @@
 				DD2065C7257DE3D9002351EB /* GiftCollectionViewCell.swift */,
 				DD2065C1257D731E002351EB /* FavsViewController.swift */,
 				DD2262DA258736FD0099AB65 /* NetworkManager.swift */,
+				DD2262E12587D2430099AB65 /* LoginViewController.swift */,
 				DD20659E257D3002002351EB /* ViewController.swift */,
 				DD2065A3257D3002002351EB /* Assets.xcassets */,
 				DD2065D0257E21C6002351EB /* DetailViewController.swift */,
@@ -232,6 +235,7 @@
 				DD2065CE257E0C95002351EB /* FavsTableViewCell.swift in Sources */,
 				DD2065C2257D731E002351EB /* FavsViewController.swift in Sources */,
 				DD20659D257D3001002351EB /* SceneDelegate.swift in Sources */,
+				DD2262E22587D2430099AB65 /* LoginViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
