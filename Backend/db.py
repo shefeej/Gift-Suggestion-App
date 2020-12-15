@@ -53,7 +53,7 @@ class Gift(db.Model):
       'age_max': self.age_max,
       'occasion': self.occasion,
       'image_url': self.image_url,
-      'users': self.users
+      'users': list(u.serialize_no_gifts() for u in self.users)
     }
   def serialize_no_users(self):
     return {
@@ -92,6 +92,12 @@ class User(db.Model):
       'id': self.id,
       'name': self.name,
       'favorites': list(g.serialize_no_users() for g in self.favorites)
+    }
+
+  def serialize_no_gifts(self):
+    return {
+      'id': self.id,
+      'name': self.name
     }
 
 class GiftImage(db.Model):
