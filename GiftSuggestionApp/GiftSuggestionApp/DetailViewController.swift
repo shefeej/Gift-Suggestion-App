@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 //TODO: add star button
 
@@ -32,7 +33,8 @@ class DetailViewController: UIViewController {
         view.backgroundColor = .white
         title = "Details"
         
-        imageView.image = UIImage(named: "gift")
+        let photoURL = URL(string: gift.imageUrl)
+        imageView.kf.setImage(with: photoURL)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(imageView)
         

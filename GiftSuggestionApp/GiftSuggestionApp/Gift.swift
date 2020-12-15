@@ -27,6 +27,7 @@ struct Gift: Codable {
     let occasion: String
     let ageMin: Int
     let ageMax: Int
+    let imageUrl: String
 }
 
 struct Response: Codable {

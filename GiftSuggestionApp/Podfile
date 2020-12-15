@@ -8,4 +8,5 @@ target 'GiftSuggestionApp' do
   # Pods for GiftSuggestionApp
   pod 'Alamofire'
   pod 'SnapKit'
+  pod 'Kingfisher'
 end

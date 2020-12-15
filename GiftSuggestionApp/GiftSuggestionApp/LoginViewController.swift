@@ -16,6 +16,7 @@ class LoginViewController: UIViewController {
     var username = ""
     var loginButton: UIButton!
     var signupButton: UIButton!
+    var logoImageView: UIImageView!
 //    var passwordTextField: UITextField!
 
     override func viewDidLoad() {
@@ -51,6 +52,11 @@ class LoginViewController: UIViewController {
         signupButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(signupButton)
         signupButton.addTarget(self, action: #selector(signup), for: .touchUpInside)
+        
+        logoImageView = UIImageView()
+        logoImageView.image = UIImage(named: "logo")
+        logoImageView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(logoImageView)
 //        passwordLabel = UILabel()
 //        passwordLabel.textColor = .black
 //        passwordLabel.text = "Password"
@@ -91,6 +97,11 @@ class LoginViewController: UIViewController {
             make.top.equalTo(loginButton.snp.top)
             make.left.equalTo(loginButton.snp.right).offset(20)
             make.size.equalTo(CGSize(width: 80, height: 50))
+        }
+        
+        logoImageView.snp.makeConstraints { (make) in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(80)
+            make.centerX.equalTo(view.snp.centerX)
         }
         
     }

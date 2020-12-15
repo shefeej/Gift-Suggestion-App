@@ -14,7 +14,7 @@ class BottomViewController: UITabBarController {
 
         // Do any additional setup after loading the view.
         self.delegate = self
-        title = "Gify"
+        title = "Gifty"
         navigationItem.hidesBackButton = true
         //        self.navigationController!.navigationBar.barStyle = .default
         //        self.navigationController!.navigationBar.isTranslucent = true

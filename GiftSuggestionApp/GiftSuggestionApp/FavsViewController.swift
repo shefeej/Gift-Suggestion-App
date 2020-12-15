@@ -47,7 +47,6 @@ class FavsViewController: UIViewController {
     private func getFavGifts() {
         NetworkManager.getFavGifts(userId: 1) { (gifts) in
             self.favGifts = gifts
-            
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
@@ -74,8 +73,7 @@ extension FavsViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! FavsTableViewCell
-        let gift = favGifts[indexPath.row]
-        cell.configure(for: gift)
+        cell.configure(gift: favGifts[indexPath.row])
         return cell
     }
 }

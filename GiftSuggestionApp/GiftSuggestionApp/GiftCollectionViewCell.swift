@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Kingfisher
 
 class GiftCollectionViewCell: UICollectionViewCell {
     
@@ -51,7 +52,9 @@ class GiftCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(gift: Gift) {
-        imageView.image = UIImage(named: "gift")
+        let photoURL = URL(string: gift.imageUrl)
+        imageView.kf.setImage(with: photoURL)
+        //imageView.image = UIImage(named: "gift")
         nameLabel.text = gift.name
 
     }

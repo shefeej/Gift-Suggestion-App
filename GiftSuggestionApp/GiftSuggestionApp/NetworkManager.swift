@@ -10,10 +10,11 @@ import Alamofire
 
 class NetworkManager {
     
-    private static let host = "https://virtserver.swaggerhub.com/njs99/gift-suggestion-app/1.0.0"
+    private static let host =
+        "http://gift-suggestion-app.herokuapp.com"
     
     static func getGifts(completion: @escaping ([Gift]) -> Void) {
-        let endpoint = "\(host)/api/gifts"
+        let endpoint = "\(host)/api/gifts/"
         AF.request(endpoint, method: .get).validate().responseData { (response) in
             switch response.result {
             case .success(let data):
@@ -52,7 +53,7 @@ class NetworkManager {
     
     static func getFavGifts(userId: Int, completion: @escaping ([Gift]) -> Void) {
 
-        let endpoint = "\(host)/user/\(userId)/"
+        let endpoint = "\(host)/api/users/\(userId)/"
         AF.request(endpoint, method: .get).validate().responseData { (response) in
             switch response.result {
             case .success(let data):
@@ -75,7 +76,7 @@ class NetworkManager {
             "user_id": userId,
             "gift_id": giftId
         ]
-        let endpoint = "\(host)/favorites/"
+        let endpoint = "\(host)/api/favorites/"
         AF.request(endpoint, method: .post, parameters: parameters, encoding: JSONEncoding.default).validate().responseData { (response) in
             switch response.result {
             case .success(let data):
@@ -90,12 +91,26 @@ class NetworkManager {
             }
         }
     }
+    
 //    static func createUser(name: String) {
 //
 //        let endpoint = "\(host)/users/"
 //        let parameters: [String: Any] = [
+//            "id": 1,
 //            "name": name
 //        ]
-//        AF.request(endpoint, method: .post, parameters: parameters)
+//        AF.request(endpoint, method: .post, parameters: parameters, encoding: JSONEncoding.default).validate().responseData { (response) in
+//            switch response.result {
+//            case .success(let data):
+//                let jsonDecoder = JSONDecoder()
+//                jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
+//                if let user = try? jsonDecoder.decode(UserResponse.self, from: data) {
+//                    let user = user.data
+//                    completion(user)
+//                }
+//            case .failure(let error):
+//                print(error.localizedDescription)
+//            }
+//        }
 //    }
 }

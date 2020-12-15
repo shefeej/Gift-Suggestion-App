@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class FavsTableViewCell: UITableViewCell {
     
@@ -35,6 +36,7 @@ class FavsTableViewCell: UITableViewCell {
             make.bottom.equalTo(contentView.snp.bottom).offset(-10)
             make.left.equalTo(contentView.snp.left)
             make.centerY.equalTo(contentView.snp.centerY)
+            make.size.equalTo(CGSize(width: 80, height: 80))
         }
         
         nameLabel.snp.makeConstraints { (make) in
@@ -58,9 +60,10 @@ class FavsTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func configure(for gift: Gift) {
+    func configure(gift: Gift) {
+        let photoURL = URL(string: gift.imageUrl)
+        favImageView.kf.setImage(with: photoURL)
         nameLabel.text = gift.name
-        favImageView.image = UIImage(named: "gift")
     }
 
 }
