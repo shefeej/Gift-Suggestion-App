@@ -1,5 +1,5 @@
 from db import db
-from db import Gift, User
+from db import Gift, User, GiftImage
 from flask import Flask
 from flask import request
 import os
@@ -22,7 +22,6 @@ def success_response(data, code=200):
 def failure_response(message, code=404):
     return json.dumps({"success": False, "error": message}), code
 
-# your routes here
 
 # get all gifts by filters
 @app.route("/api/gifts/")
@@ -86,20 +85,31 @@ def create_gift():
     body_age_min = body.get('age_min')
     body_age_max = body.get('age_max')
     body_occasion = body.get('occasion')
-    body_image_url = body.get('image_url', 'https://rushcountyfoundation.org/wp-content/uploads/2015/12/gift-06.jpg')
+    body_image_data = body.get('image_data')
     if None in [body_name, body_price, body_age_min, body_age_max, body_occasion]:
         return failure_response("Please provide gift name, price, age_min, age_max, and occasion.", 400)
+    if body_image_data is None:
+        image_url = "https://gift-suggestion-app.s3.us-east-2.amazonaws.com/gift-default.jpg"
+    else:
+        image = GiftImage(image_data=body_image_data)
+        image_url = image.get_url()
+
     new_gift = Gift(
         name=body_name,
         price=body_price,
         age_min=body_age_min,
         age_max=body_age_max,
         occasion=body_occasion,
-        #image_url=body_image_url
+        image_url=image_url
     )
     db.session.add(new_gift)
     db.session.commit()
     return success_response(new_gift.serialize(), 201)
+
+# get all images
+@app.route("/api/images/")
+def get_image():
+    success_response([i.serialize() for i in Image.query.all()])
 
 # delete a specific gift
 @app.route("/api/gifts/<int:gift_id>/", methods=["DELETE"])
